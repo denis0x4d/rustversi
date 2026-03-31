@@ -1,0 +1,459 @@
+" install cocode:: go get -u -ldflags -H=windowsgui github.com/nsf/gocode
+"============ GENERAL  ============
+set nocompatible
+"execute pathogen#infect()
+let $LANG = 'en_US'
+"set noguipty "RESERVED
+set modeline
+
+set langmenu=none
+if (&diff!=0)
+    if has("win32")
+        set guifont=Courier_New:h9
+    else
+        set guifont=monospace\ 9
+    endif
+else
+    if has("win32")
+        set guifont=Consolas:h11
+    else
+        set guifont=monospace
+    endif
+endif
+
+set nolazyredraw
+set virtualedit=block
+set browsedir=buffer
+"set clipboard+=unnamed
+set backspace=indent,eol,start
+set linebreak
+
+filetype on 
+filetype plugin on 
+filetype plugin indent on
+syntax on
+
+runtime ftplugin/man.vim
+runtime macros/justify.vim 
+
+if has("multi_byte")
+    if &encoding !~? '^u'
+        if &termencoding == ""
+            let &termencoding = &encoding
+        endif
+        if has('gui_running') 
+            set termencoding=utf-8 
+            set encoding=utf-8
+        endif
+    endif
+endif
+
+set colorcolumn=120
+"set background=dark
+
+"============= TABS ===============
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+set expandtab
+set textwidth=0
+
+"============= IDENTS =============
+filetype indent on
+set autoindent
+set scrolloff=3
+set nowrap
+""set smartindent
+
+"============== EDIT  =============
+let c_comment_strings=1 
+set showmatch
+set nobackup
+"set viminfo=
+set nowritebackup
+set noswapfile
+set ignorecase 
+set nowrapscan 
+set incsearch
+set hlsearch
+
+"set keymap=russian-jcukenwin  
+set keymap=russian-yawerty 
+setlocal spell spelllang=
+setlocal nospell
+set iminsert=0 "english layout by default
+set imsearch=0
+
+"set iskeyword=@,48-57,_,192-255
+
+set laststatus=2
+set statusline=%<%f%h%m%r\ %b\ %l,%c%V\ %P
+set wildmenu
+set wcm=<Tab>
+set showcmd
+"set novisualbell t_vb=
+set vb t_vb=
+set splitbelow
+set mouse=a " enable mouse support
+set mousehide   " Hide the mouse when typing text
+set mousemodel=popup
+" Enter the Pilcrow mark by pressing Ctrl-k then PI
+" The command :dig displays other digraphs you can use.
+set path=.,..
+set foldcolumn=5
+set diffopt+=context:1
+
+"set list                " print space symbols
+
+"==== BUFFERS AND SESSIONS ========
+set hidden              
+set sessionoptions=curdir,buffers,tabpages
+"=======  MENU AND TOOLBAR ========
+menu Encoding.CP1251   :e ++enc=cp1251<CR>
+menu Encoding.CP866    :e ++enc=cp866<CR>
+menu Encoding.KOI8-U   :e ++enc=koi8-u<CR>
+menu Encoding.UTF-8    :e ++enc=utf-8<CR>
+
+"============ KEYS  ===============
+"" CTRL-H does SEARCH/REPLACE
+if has('gui_running')
+    winsize 120 40
+
+    set cursorline
+    
+    let g:screen_size_restore_pos = 1
+    let g:screen_size_by_vim_instance = 1
+    "set columns=999
+    "set lines=999
+
+"    set insertmode
+    set guioptions-=m
+    set guioptions-=T
+    source $VIMRUNTIME/mswin.vim
+
+    noremap <silent> <C-H> :promptrepl<CR>
+    vnoremap <silent> <C-H> y:promptrepl <C-R>"<CR>
+    onoremap <silent> <C-H> <C-C>:promptrepl<CR>
+    inoremap <silent> <C-H> <C-O>:promptrepl<CR>
+    cnoremap <silent> <C-H> <C-C>:promptrepl<CR>
+
+    set list listchars=tab:»\ ,trail:·,eol:¶,precedes:<,extends:>
+    set list!
+"    colorscheme morning     
+
+    syntax enable
+    set background=light
+    let g:solarized_contrast="high"    "default value is normal
+    let g:solarized_visibility="high"    "default value is normal
+    colorscheme solarized
+
+    highlight SpecialKey guibg=gray90  guifg=gray
+    highlight NonText guibg=gray90  guifg=gray
+    hi rstStrongEmphasis term=bold cterm=bold gui=bold
+    "========= VimWiki =================
+    hi VimwikiHeader1 guifg=#FF0000 gui=bold 
+    hi VimwikiHeader2 guifg=#00AA00 gui=bold
+    hi VimwikiHeader3 guifg=#0000FF gui=bold
+    hi VimwikiHeader4 guifg=#FF00FF gui=bold
+    hi VimwikiHeader5 guifg=#00FFFF gui=bold
+    hi VimwikiHeader6 guifg=#FFFF00 gui=bold 
+else
+    "set background=dark
+    "let g:solarized_termcolors=256
+    "set background=light
+    hi Visual term=reverse  ctermfg=black ctermbg=Yellow  
+
+    "set background=dark
+    "let g:solarized_contrast="high"    "default value is normal
+    "let g:solarized_visibility="high"    "default value is normal
+    colorscheme morning 
+    set background=dark
+    set background=light
+endif
+
+if has("signs")
+	" define a highlight colour group for bookmarks
+	hi default BookmarkCol ctermbg=gray cterm=bold  guibg=gray gui=bold
+	" define a bookmark / sign: just highlight the line
+	sign define MyBookmark linehl=BookmarkCol text=>>
+
+    map <silent> <F2> <ESC>:exe 'sign jump 1000 buffer='.winbufnr(0)<CR>
+	map <silent> <leader>2 <ESC>:exe 'sign jump 1000 buffer='.winbufnr(0)<CR>
+
+	map <silent> <C-F2> <ESC>:sign unplace 1000<CR>:exe 'sign place 1000 name=MyBookmark line='.line(".").' buffer='.winbufnr(0)<CR>
+	map <silent> <leader>w <ESC>:sign unplace 1000 <CR>:exe 'sign place 1000 name=MyBookmark line='.line(".").' buffer='.winbufnr(0)<CR>
+
+    map <silent> <M-F2> <ESC>:sign unplace 1000<CR>
+	map <silent> <leader>s <ESC>:sign unplace 1000<CR>
+endif
+
+imap <silent> <S-Space> <C-P>
+imap <silent> <C-S-Space> <C-X><C-U>
+imap <silent> <C-Space> <C-X><C-O>
+"<C-^>
+map <silent> <M-o> :set list!<CR>
+"          <F1> -- Help 
+map <S-F1> <ESC>:cal Help()<CR>
+"          <F2> -- Marks: see above
+map <silent> <F3> <ESC>:cal Maximize()<CR>
+map <silent> <C-F3> <ESC>:cal Normalize()<CR>
+map <silent> <leader>3 <ESC>:tab ball<cr>
+map <silent> <S-F3> <ESC>:tab ball<cr>
+map <silent> <M-F3> <ESC>:tabe<cr>
+"edit file
+map <silent> <F4> <ESC>:e %:h<cr> 
+map <silent> <leader>4 <ESC>:e %:h<cr> 
+map <silent> <S-F4> <ESC>:bd<cr>
+map <silent> <C-TAB> <ESC>:tabn<cr> 
+"tools
+map <silent> <F5> <ESC>
+map <silent> <leader>5 <ESC>
+map <silent> <C-F5> <ESC>
+map <silent> <S-F5> <ESC>:cal CommitGit() <CR>
+map <silent> <M-F5> <ESC> 
+map <silent> <F6> <ESC>:set filetype=markdown<CR>i
+map <silent> <leader>6 <ESC>:set filetype=markdown<CR>i
+map <silent> <S-F6> <ESC>gwipvip_j
+imap <silent> <S-F6> <ESC>gwipvip_j i
+imap <silent> <F6> <ESC>gwipvip_j i
+map <silent> <M-F6> <ESC>:cal PandocMarkdownToHtml()<CR>
+map <silent> <C-F6> <ESC>
+"spelling
+map <silent> <F7> <Esc>:call ChangeSpellLang()<CR>
+map <silent> <leader>7 <Esc>:call ChangeSpellLang()<CR>
+map <silent> <C-F7> <ESC>:tselect <TAB> 
+"encoding
+map <silent> <F8> :emenu Encoding.<TAB>
+map <silent> <leader>8 :emenu Encoding.<TAB>
+"options
+map <silent> <F9> :cal ShowOption()<CR>
+map <silent> <leader>9 :cal ShowOption()<CR>
+"RESERVER IN LINUX
+map <silent> <F10> <ESC>
+map <silent> <F11> <ESC>
+map <silent> <F12> <ESC>
+imap <silent> <F10> <ESC>
+imap <silent> <F11> <ESC> 
+imap <silent> <F12> <esc>
+map й q
+map ц w
+map у e
+map к r
+map е t
+map н y
+map г u
+map ш i
+map щ o
+map з p
+map х [
+map ъ ]
+map ф a
+map ы s
+map в d
+map а f
+map п g
+map р h
+map о j
+map л k
+map д l
+map ж ;
+map э '
+map я z
+map ч x
+map с c
+map м v
+map и b
+map т n
+map ь m
+
+" для vim 9.0, 9.1 -- "map <S-Й> Q" etc
+map Й Q
+map Ц W
+map У E
+map К R
+map Е T
+map Н Y
+map Г U
+map Ш I
+map Щ O
+map З P
+map Х {
+map Ъ }
+map Ф A
+map Ы S
+map В D
+map А F
+map П G
+map Р H
+map О J
+map Л K
+map Д L
+map Ж :
+map Э "
+map Я Z
+map Ч X
+map С C
+map М V
+map И B
+map Т N
+map Ь M
+
+map <C-й> <C-q>
+map <C-ц> <C-w>
+map <C-у> <C-e>
+map <C-к> <C-r>
+map <C-е> <C-t>
+map <C-н> <C-y>
+map <C-г> <C-u>
+map <C-ш> <C-i>
+map <C-щ> <C-o>
+map <C-з> <C-p>
+map <C-х> <C-{>
+map <C-ъ> <C-}>
+map <C-ф> <C-a>
+map <C-ы> <C-s>
+map <C-в> <C-d>
+map <C-а> <C-f>
+map <C-п> <C-g>
+map <C-р> <C-h>
+map <C-о> <C-j>
+map <C-л> <C-k>
+map <C-д> <C-l>
+"map <C-ж> <C-:>
+map <C-э> <C-">
+map <C-я> <C-z>
+map <C-ч> <C-x>
+map <C-с> <C-c>
+map <C-м> <C-v>
+map <C-и> <C-b>
+map <C-т> <C-n>
+map <C-ь> <C-m>
+
+
+"========== FUNCTIONS =============
+function Help()
+  echon "   | F2 - Jump | F3 - Max  | F4 - Open  | F5 - [Wiki]  | F6 - MD/Frm | F7 - Spell | F8 - Enc | F9 - Menu |\n"
+  echon " C-| F2 - Set  | F3 - Norm | F4 - ClsW  | F5 - [Bckp]  | F6 - [wHTML]| F7 - Tag   | F8 -     | F9 -      |\n"
+  echon " S-| F2 -      | F3 - 2tab | F4 - DelB  | F5 - Git     | F6 - Frm    | F7 -       | F8 -     | F9 -      |\n"
+  echon " M-| F2 - Remv | F3 - NewT | F4 - Close | F5 - [Renum] | F6 - pHTML  | F7 -       | F8 -     | F9 -      |\n"
+  echon " M-o - show/hide | C-TAB - nxt win | C-H - srch/repl | qa/q - rec macro | @a - exec | :%s/aa/bb/igc - repl \n"
+  echon " M-Space -- switch lang| set ff=unix | gq - split lines | set cursorline - highlight current line\n"
+  return 1
+endfunc
+
+function ShowOption()
+    if &guioptions =~# 'T' 
+        set guioptions-=T 
+        set guioptions-=m 
+    else
+        set guioptions+=T 
+        set guioptions+=m 
+    endif
+endfunc
+
+function Maximize()
+    if has('gui_running')
+        winsize 300 80
+    endif
+endfunc
+
+function Normalize()
+    if has('gui_running')
+       winsize 120 40
+    endif
+endfunc
+
+function ChangeSpellLang()
+    if &spelllang =~ "en_us"
+        setlocal spell spelllang=ru
+        echo "spelllang: ru"
+    elseif &spelllang =~ "ru"
+        setlocal spell spelllang=
+        setlocal nospell
+        echo "spelllang: off"
+    else
+        setlocal spell spelllang=en_us
+        echo "spelllang: en"
+    endif
+endfunc
+
+function! CommitGit() abort
+  new
+  silent execute 'r ! git add --all && git commit'
+endfunction
+
+function! PandocMarkdownToHtml() abort
+  let l:infile  = expand('%:p')        " полный путь к текущему файлу
+  let l:outfile = expand('%:p:r') . '.html'  " имя без расширения + .html
+  let browser='google-chrome '
+  if has("win32")
+    let browser='!start '
+  endif 
+  silent execute '!pandoc -f markdown -t html -o '.shellescape(l:outfile, 1).' '.shellescape(l:infile, 1)
+  silent execute  browser.shellescape(l:outfile, 1)
+endfunction
+
+fun! s:LargeFile(force,fname)
+    if a:force || getfsize(a:fname) >= g:LargeFile*1024*1024 || getfsize(a:fname) <= -2
+        syn clear
+        let b:eikeep = &ei
+        let b:ulkeep = &ul
+        let b:bhkeep = &bh
+        let b:fdmkeep= &fdm
+        let b:swfkeep= &swf
+        set ei=FileType
+        setlocal noswf bh=unload fdm=manual ul=-1
+        let fname=escape(substitute(a:fname,'\','/','g'),' ')
+        exe "au LargeFile BufEnter ".fname." set ul=-1"
+        exe "au LargeFile BufLeave ".fname." let &ul=".b:ulkeep."|set ei=".b:eikeep
+        exe "au LargeFile BufUnload ".fname." au! LargeFile * ". fname
+        echomsg "***note*** handling a large file"
+    endif
+endfun
+
+"============ AUTOEXEC =============
+let g:acp_mappingDriven = 1
+set hid "Hide abandoned buffers in order to not loose undo history
+let Tlist_File_Fold_Auto_Close = 1
+setlocal cm=blowfish2
+
+let g:LargeFile= 5 " in megabytes
+augroup LargeFile
+au BufReadPre * call <SID>LargeFile(0,expand("<afile>"))
+augroup END
+
+set omnifunc=syntaxcomplete#Complete
+set completeopt=longest,menuone
+
+" 'jscomplete#CompleteJS',
+let g:nodejs_complete_config = {
+\   'js_compl_fn': 'javascriptcomplete#CompleteJS',
+\  'max_node_compl_len': 15
+\}
+
+autocmd BufNewFile,BufRead *.gsp set filetype=jsp
+autocmd BufRead,BufNewFile *.puml,*.uml,*.plantuml set filetype=plantuml
+autocmd BufRead,BufNewFile *.go set filetype=go
+autocmd Filetype plantuml let &l:makeprg=s:makecommand
+autocmd BufRead,BufNewFile *.kt,*.kts,*.jet  set filetype=kotlin
+au BufNewFile,BufFilePRe,BufRead *.wiki set filetype=vimwiki
+
+
+"=========== FOLDING ===============
+set foldmethod=syntax 
+
+"syntax indent 
+set foldlevel=20 "open folds
+
+"rust >>
+let g:racer_cmd = "racer"
+let g:rustfmt_autosave = 1
+let g:racer_experimental_completer = 1
+autocmd FileType rust nmap gd <Plug>(rust-def)
+autocmd FileType rust nmap gs <Plug>(rust-def-split)
+autocmd FileType rust nmap gx <Plug>(rust-def-vertical)
+autocmd FileType rust nmap <leader>gd <Plug>(rust-doc)
+"rust <<
+
+
+"============= >> EOF<< ============
