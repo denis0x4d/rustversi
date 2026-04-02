@@ -1,4 +1,4 @@
-" install cocode:: go get -u -ldflags -H=windowsgui github.com/nsf/gocode
+" Denis@20260330
 "============ GENERAL  ============
 set nocompatible
 "execute pathogen#infect()
@@ -187,8 +187,8 @@ if has("signs")
 	map <silent> <leader>s <ESC>:sign unplace 1000<CR>
 endif
 
-imap <silent> <S-Space> <C-P>
-imap <silent> <C-S-Space> <C-X><C-U>
+imap <silent> <C-S-Space> <C-P>
+"imap <silent> <C-S-Space> <C-X><C-U>
 imap <silent> <C-Space> <C-X><C-O>
 "<C-^>
 map <silent> <M-o> :set list!<CR>
@@ -431,13 +431,13 @@ let g:nodejs_complete_config = {
 \  'max_node_compl_len': 15
 \}
 
-autocmd BufNewFile,BufRead *.gsp set filetype=jsp
-autocmd BufRead,BufNewFile *.puml,*.uml,*.plantuml set filetype=plantuml
-autocmd BufRead,BufNewFile *.go set filetype=go
-autocmd Filetype plantuml let &l:makeprg=s:makecommand
-autocmd BufRead,BufNewFile *.kt,*.kts,*.jet  set filetype=kotlin
+au BufNewFile,BufRead *.gsp set filetype=jsp
+au BufRead,BufNewFile *.puml,*.uml,*.plantuml set filetype=plantuml
+au BufRead,BufNewFile *.go set filetype=go
+au Filetype plantuml let &l:makeprg=s:makecommand
+au BufRead,BufNewFile *.kt,*.kts,*.jet  set filetype=kotlin
 au BufNewFile,BufFilePRe,BufRead *.wiki set filetype=vimwiki
-
+au FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 
 "=========== FOLDING ===============
 set foldmethod=syntax 
