@@ -1,7 +1,6 @@
 " Denis@20260406
 "============ GENERAL  ============
 set nocompatible
-"execute pathogen#infect()
 let $LANG = 'en_US'
 "set noguipty "RESERVED
 set modeline
