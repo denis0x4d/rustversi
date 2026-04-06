@@ -442,15 +442,5 @@ set foldmethod=syntax
 "syntax indent 
 set foldlevel=20 "open folds
 
-"rust >>
-let g:racer_cmd = "racer"
-let g:rustfmt_autosave = 1
-let g:racer_experimental_completer = 1
-autocmd FileType rust nmap gd <Plug>(rust-def)
-autocmd FileType rust nmap gs <Plug>(rust-def-split)
-autocmd FileType rust nmap gx <Plug>(rust-def-vertical)
-autocmd FileType rust nmap <leader>gd <Plug>(rust-doc)
-"rust <<
-
 "  ________________________________________ CUT HERE _____________________________________
 "============= >> EOF<< ============
