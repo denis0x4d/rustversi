@@ -186,6 +186,7 @@ imap <silent> <C-Space> <C-X><C-O>
 map <silent> <M-o> :set list!<CR>
 "          <F1> -- Help 
 map <S-F1> <ESC>:cal Help()<CR>
+map <silent> <leader>1 <ESC>:cal Help()<CR>
 "          <F2> -- Marks: see above
 map <silent> <F3> <ESC>:cal Maximize()<CR>
 map <silent> <C-F3> <ESC>:cal Normalize()<CR>
@@ -325,12 +326,14 @@ map <C-ь> <C-m>
 
 "========== FUNCTIONS =============
 function Help()
-  echon "   | F2 - Jump | F3 - Max  | F4 - Open  | F5 - [Wiki]  | F6 - MD/Frm | F7 - Spell | F8 - Enc | F9 - Menu |\n"
-  echon " C-| F2 - Set  | F3 - Norm | F4 - ClsW  | F5 - [Bckp]  | F6 - [wHTML]| F7 - Tag   | F8 -     | F9 -      |\n"
-  echon " S-| F2 -      | F3 - 2tab | F4 - DelB  | F5 - Git     | F6 - Frm    | F7 -       | F8 -     | F9 -      |\n"
-  echon " M-| F2 - Remv | F3 - NewT | F4 - Close | F5 - [Renum] | F6 - pHTML  | F7 -       | F8 -     | F9 -      |\n"
-  echon "| M-o - show /hide  | C-TAB - next win | set ff=unix      | qa/q - rec macro          | @a - exec macro  |\n"
-  echon "| C-^ - switch lang | C-H - srch/repl  | gq - split lines | s :%s/aa/bb/igc - replace | set bg=dark/light|\n"
+  echon "   | F2 - Jump | F3 - Max  | F4 - Open  | F5 - [Wiki]  | F6 - MD/Frm  | F7 - Spell | F8 - Enc | F9 - Menu |\n"
+  echon " C-| F2 - Set  | F3 - Norm | F4 - ClsW  | F5 - [Bckp]  | F6 - [wHTML] | F7 - Tag   | F8 -     | F9 -      |\n"
+  echon " S-| F2 -      | F3 - 2tab | F4 - DelB  | F5 - Git     | F6 - Frm     | F7 -       | F8 -     | F9 -      |\n"
+  echon " M-| F2 - Remv | F3 - NewT | F4 - Close | F5 - [Renum] | F6 - pHTML   | F7 -       | F8 -     | F9 -      |\n"
+  echon "| M-o - show /hide    |  C-TAB - next win | :set ff=unix       | qa/q - rec macro        |  @a - exec macro |\n"
+  echon "| C-^ - switch lang   |  C-H - srch/repl  | :set bg=dark/light | :%s/aa/bb/igc - replace | :ter - terminal  |\n"
+  echon "| gwipvip_j - justify | :tab ball - 2tabs | :tabe - ed in tab  | gt/gT -  tabs           | :bd  - close buf |\n" 
+  echon "| :ju/:marks - jumps  |  gg/G - begin/end |  gd/gD - define    | g,/g; -  changes        |  gf - open under |\n" 
   return 1
 endfunc
 
@@ -450,5 +453,4 @@ autocmd FileType rust nmap <leader>gd <Plug>(rust-doc)
 "rust <<
 
 "  ________________________________________ CUT HERE _____________________________________
-
 "============= >> EOF<< ============
