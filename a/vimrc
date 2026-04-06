@@ -1,4 +1,4 @@
-" Denis@20260330
+" Denis@20260406
 "============ GENERAL  ============
 set nocompatible
 "execute pathogen#infect()
@@ -31,6 +31,8 @@ set linebreak
 filetype on 
 filetype plugin on 
 filetype plugin indent on
+set termguicolors      
+set t_Co=256          
 syntax on
 
 runtime ftplugin/man.vim
@@ -49,22 +51,18 @@ if has("multi_byte")
 endif
 
 set colorcolumn=120
-"set background=dark
-
 "============= TABS ===============
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 set expandtab
 set textwidth=0
-
 "============= IDENTS =============
 filetype indent on
 set autoindent
 set scrolloff=3
 set nowrap
 ""set smartindent
-
 "============== EDIT  =============
 let c_comment_strings=1 
 set showmatch
@@ -79,7 +77,7 @@ set hlsearch
 
 "set keymap=russian-jcukenwin  
 set keymap=russian-yawerty 
-setlocal spell spelllang=
+setlocal spelllang=
 setlocal nospell
 set iminsert=0 "english layout by default
 set imsearch=0
@@ -91,7 +89,8 @@ set statusline=%<%f%h%m%r\ %b\ %l,%c%V\ %P
 set wildmenu
 set wcm=<Tab>
 set showcmd
-"set novisualbell t_vb=
+set noerrorbells
+set novisualbell
 set vb t_vb=
 set splitbelow
 set mouse=a " enable mouse support
@@ -103,7 +102,9 @@ set path=.,..
 set foldcolumn=5
 set diffopt+=context:1
 
-"set list                " print space symbols
+set list listchars=tab:»\ ,trail:·,eol:¶,precedes:<,extends:>
+set list!
+set cursorline
 
 "==== BUFFERS AND SESSIONS ========
 set hidden              
@@ -118,15 +119,12 @@ menu Encoding.UTF-8    :e ++enc=utf-8<CR>
 "" CTRL-H does SEARCH/REPLACE
 if has('gui_running')
     winsize 120 40
-
-    set cursorline
     
     let g:screen_size_restore_pos = 1
     let g:screen_size_by_vim_instance = 1
     "set columns=999
     "set lines=999
-
-"    set insertmode
+    "set insertmode
     set guioptions-=m
     set guioptions-=T
     source $VIMRUNTIME/mswin.vim
@@ -137,11 +135,8 @@ if has('gui_running')
     inoremap <silent> <C-H> <C-O>:promptrepl<CR>
     cnoremap <silent> <C-H> <C-C>:promptrepl<CR>
 
-    set list listchars=tab:»\ ,trail:·,eol:¶,precedes:<,extends:>
-    set list!
-"    colorscheme morning     
-
-    syntax enable
+    "colorscheme morning     
+    "syntax enable
     set background=light
     let g:solarized_contrast="high"    "default value is normal
     let g:solarized_visibility="high"    "default value is normal
@@ -158,16 +153,13 @@ if has('gui_running')
     hi VimwikiHeader5 guifg=#00FFFF gui=bold
     hi VimwikiHeader6 guifg=#FFFF00 gui=bold 
 else
-    "set background=dark
-    "let g:solarized_termcolors=256
-    "set background=light
     hi Visual term=reverse  ctermfg=black ctermbg=Yellow  
+    let &t_EI = "\e[2 q" 
+    let &t_SR = "\e[3 q"
+    let &t_SI = "\e[0 q" 
 
+    colorscheme lunaperche
     "set background=dark
-    "let g:solarized_contrast="high"    "default value is normal
-    "let g:solarized_visibility="high"    "default value is normal
-    colorscheme morning 
-    set background=dark
     set background=light
 endif
 
@@ -217,6 +209,7 @@ map <silent> <S-F6> <ESC>gwipvip_j
 imap <silent> <S-F6> <ESC>gwipvip_j i
 imap <silent> <F6> <ESC>gwipvip_j i
 map <silent> <M-F6> <ESC>:cal PandocMarkdownToHtml()<CR>
+imap <silent> <M-F6> <ESC>:cal PandocMarkdownToHtml()<CR>
 map <silent> <C-F6> <ESC>
 "spelling
 map <silent> <F7> <Esc>:call ChangeSpellLang()<CR>
@@ -336,8 +329,8 @@ function Help()
   echon " C-| F2 - Set  | F3 - Norm | F4 - ClsW  | F5 - [Bckp]  | F6 - [wHTML]| F7 - Tag   | F8 -     | F9 -      |\n"
   echon " S-| F2 -      | F3 - 2tab | F4 - DelB  | F5 - Git     | F6 - Frm    | F7 -       | F8 -     | F9 -      |\n"
   echon " M-| F2 - Remv | F3 - NewT | F4 - Close | F5 - [Renum] | F6 - pHTML  | F7 -       | F8 -     | F9 -      |\n"
-  echon " M-o - show/hide | C-TAB - nxt win | C-H - srch/repl | qa/q - rec macro | @a - exec | :%s/aa/bb/igc - repl \n"
-  echon " M-Space -- switch lang| set ff=unix | gq - split lines | set cursorline - highlight current line\n"
+  echon "| M-o - show /hide  | C-TAB - next win | set ff=unix      | qa/q - rec macro          | @a - exec macro  |\n"
+  echon "| C-^ - switch lang | C-H - srch/repl  | gq - split lines | s :%s/aa/bb/igc - replace | set bg=dark/light|\n"
   return 1
 endfunc
 
@@ -438,6 +431,7 @@ au Filetype plantuml let &l:makeprg=s:makecommand
 au BufRead,BufNewFile *.kt,*.kts,*.jet  set filetype=kotlin
 au BufNewFile,BufFilePRe,BufRead *.wiki set filetype=vimwiki
 au FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd VimLeave * set noerrorbells
 
 "=========== FOLDING ===============
 set foldmethod=syntax 
@@ -455,5 +449,6 @@ autocmd FileType rust nmap gx <Plug>(rust-def-vertical)
 autocmd FileType rust nmap <leader>gd <Plug>(rust-doc)
 "rust <<
 
+"  ________________________________________ CUT HERE _____________________________________
 
 "============= >> EOF<< ============
