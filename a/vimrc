@@ -1,4 +1,4 @@
-" Denis@20260406
+" Denis@20260408
 "============ GENERAL  ============
 set nocompatible
 let $LANG = 'en_US'
@@ -134,12 +134,14 @@ if has('gui_running')
     inoremap <silent> <C-H> <C-O>:promptrepl<CR>
     cnoremap <silent> <C-H> <C-C>:promptrepl<CR>
 
-    "colorscheme morning     
-    "syntax enable
+    if len(globpath(&rtp, 'colors/' .  'solarized.vim', 0, 1)) > 0
+        let g:solarized_contrast="high"    "default value is normal
+        let g:solarized_visibility="high"    "default value is normal
+        colorscheme solarized
+    else
+        colorscheme lunaperche
+    endif
     set background=light
-    let g:solarized_contrast="high"    "default value is normal
-    let g:solarized_visibility="high"    "default value is normal
-    colorscheme solarized
 
     highlight SpecialKey guibg=gray90  guifg=gray
     highlight NonText guibg=gray90  guifg=gray
@@ -440,6 +442,6 @@ set foldmethod=syntax
 
 "syntax indent 
 set foldlevel=20 "open folds
-
 "  ________________________________________ CUT HERE _____________________________________
+
 "============= >> EOF<< ============
